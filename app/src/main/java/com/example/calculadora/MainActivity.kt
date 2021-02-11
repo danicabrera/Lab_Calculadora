@@ -1,12 +1,18 @@
 package com.example.calculadora
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
+    var num1: Double = 0.0
+    var num2 : Double = 0.0
+    var op : Int = 0
+    var respuesta : Double = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -15,7 +21,11 @@ class MainActivity : AppCompatActivity() {
         val botonMulti : Button = findViewById(R.id.btnMultiplica)
         val botonDividir : Button = findViewById(R.id.btnDivide)
 
-        var resultado: TextView = findViewById(R.id.txtResp)
+        val botonIgual : Button = findViewById(R.id.btnIgual)
+        val botonAC : Button = findViewById(R.id.btnAC)
+
+        val resultado: TextView = findViewById(R.id.txtResp)
+
         val botonUno: Button = findViewById(R.id.btn1)
         val botonDos: Button = findViewById(R.id.btn2)
         val botonTres: Button = findViewById(R.id.btn3)
@@ -37,9 +47,61 @@ class MainActivity : AppCompatActivity() {
         botonOcho.setOnClickListener{Presionar("8", resultado)}
         botonNueve.setOnClickListener{Presionar("9", resultado)}
         botonCero.setOnClickListener{Presionar("0", resultado)}
+
+        botonMas.setOnClickListener{
+            resultado.text = "0"
+            num1 = resultado.text.toString().toDouble()
+            op = 1
+        }
+        botonMenos.setOnClickListener{
+            num1 = resultado.text.toString().toDouble()
+            resultado.text = "0"
+            op = 2
+        }
+        botonMulti.setOnClickListener{
+            num1 = resultado.text.toString().toDouble()
+            resultado.text = "0"
+            op = 3
+        }
+        botonDividir.setOnClickListener{
+            num1 = resultado.text.toString().toDouble()
+            resultado.text = "0"
+            op = 4
+        }
+
+        botonIgual.setOnClickListener{
+            if(op == 1){
+                respuesta = num1  + num2
+            } else if (op == 2){
+                respuesta = num1  - num2
+            } else if (op == 3){
+                respuesta = num1  * num2
+            } else if (op == 4){
+                respuesta = num1  / num2
+            } else{
+                respuesta = 0.0
+            }
+            resultado.text = respuesta.toString()
+        }
+
+        botonAC.setOnClickListener{
+            num1 = 0.0
+            num2 = 0.0
+            resultado.text = "0"
+
+        }
     }
 
-    private fun Presionar(num: String, res: TextView){
+
+    @SuppressLint("SetTextI18n")
+    private fun Presionar(num: String, res :TextView){
         res.text = "${res.text}$num"
+        if(op == 0){
+            num1 = res.text.toString().toDouble()
+        } else{
+            num2 = res.text.toString().toDouble()
+        }
     }
+
+
 }
